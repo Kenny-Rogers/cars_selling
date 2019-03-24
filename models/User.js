@@ -10,7 +10,6 @@ const UserSchema = new Schema({
     type : { type: String },
     usage : {
         date_created : { type : Date, default : Date.now },
-        last_login : Date,
         status : { type : String, default : 'enabled'}
     }
 });

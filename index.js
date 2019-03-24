@@ -2,14 +2,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const expressValidator= require('express-validator');
+const expressSession = require('express-session'); 
+
+//including the routers for various pages
 const seller_router = require('./routes/seller');
 const buyer_router = require('./routes/buyer');
 const admin_router = require('./routes/admin');
+
+//including user model
 const userModel = require('./models/User'); 
-const expressValidator= require('express-validator');
-const expressSession = require('express-session'); 
-const port = 1500;
-const base_url = `http://localhost/${port}/`;
 
 //express app setup
 const app = express();
@@ -20,7 +22,11 @@ app.use(expressSession({secret:'qpldhn273_s!', saveUninitialized:false, resave:f
 mongoose.connect('mongodb+srv://car_selling_webapp:IfnPjZQiM367ABPc@cluster0-avv4c.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 const db = mongoose.connection;
 
+//variable definitions 
+const port = 1500;
+const base_url = `http://localhost/${port}/`;
 
+//universal routes
 app.post('/signin', (req, res)=>{
     userModel.findOne(
         {email:req.body.email, password:req.body.password},
@@ -35,7 +41,7 @@ app.post('/signin', (req, res)=>{
                 let userbase = (user.type == 'buyer') ? 'buyer' :
                                (user.type == 'seller') ? 'seller' :
                                (user.type == 'admin')  ? 'admin' : '/signin';
-                res.redirect(`${base_url}${userbase}`);
+                //res.redirect(`${base_url}${userbase}`);
             }
         });
 });
@@ -56,7 +62,7 @@ app.post('/signup', (req, res)=>{
             console.log('Failed to save user', error);
         } else {
             console.log('Save user successfully', document);
-            res.redirect(`${base_url}signin`);
+           // res.redirect(`${base_url}signin`);
         }
     });
 });
