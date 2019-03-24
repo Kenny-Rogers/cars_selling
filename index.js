@@ -6,12 +6,17 @@ const seller_router = require('./routes/seller');
 const buyer_router = require('./routes/buyer');
 const admin_router = require('./routes/admin');
 const userModel = require('./models/User'); 
+const expressValidator= require('express-validator');
+const expressSession = require('express-session'); 
+const port = 1500;
+const base_url = `http://localhost/${port}/`;
 
 //express app setup
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(expressValidator());
+app.use(expressSession({secret:'qpldhn273_s!', saveUninitialized:false, resave:false}));
 mongoose.connect('mongodb+srv://car_selling_webapp:IfnPjZQiM367ABPc@cluster0-avv4c.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 const db = mongoose.connection;
 
@@ -24,9 +29,13 @@ app.post('/signin', (req, res)=>{
                 console.error(error);
                 res.send('Invalid email or password');
             } else {
-                let id = user._id;
-                console.log(`Succesfully found user ${id}`, user);
-                res.send(user);
+                console.log(`Succesfully found user ${user}`);
+                req.session.user_id = user._id;
+                req.session.user_type = user.type;
+                let userbase = (user.type == 'buyer') ? 'buyer' :
+                               (user.type == 'seller') ? 'seller' :
+                               (user.type == 'admin')  ? 'admin' : '/signin';
+                res.redirect(`${base_url}${userbase}`);
             }
         });
 });
@@ -41,16 +50,21 @@ app.post('/signup', (req, res)=>{
     newUser.voter_id = req.body.voter_id;
     newUser.type = req.body.type;
     
-    //saving to db
+    //saving to dbBeau teaches JavaScript
     newUser.save((error, document) =>{
         if(error){
             console.log('Failed to save user', error);
-            res.status(400);
         } else {
             console.log('Save user successfully', document);
-            res.status(200);
-            res.send(document);
+            res.redirect(`${base_url}signin`);
         }
+    });
+});
+
+app.get('/signout', (req, res)=>{
+    req.session.destroy(()=>{
+        console.log('User logged out successfully');
+        //TODO:: render sign out successfully page
     });
 });
 
@@ -64,7 +78,7 @@ app.use('/admin',  admin_router);
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', ()=>{
     console.log('database connection opened');
-    app.listen(1500, () => {
+    app.listen(port, () => {
         console.log('App listening on port 1500');
     });
 });
