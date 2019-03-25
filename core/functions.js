@@ -17,7 +17,7 @@ const saveFile = async (req) => {
                 //add new name to array of filenames
                 uploadFiles.push(filename);
             });
-        } else {
+        } else if( file_count == 1) {
             //if an object, save the single object
             let file = req.files.pictures;
             let filename = `p_${Math.round(Math.random() * (1000 - 0))}_${file_count}_${Math.round(Math.random() * (1000 - 0))}${file.name.substr(file.name.lastIndexOf('.'))}`;
@@ -28,7 +28,7 @@ const saveFile = async (req) => {
             });
             //add new name to array of filenames
             uploadFiles.push(filename);
-        }
+        } 
     }
     return uploadFiles;
 }
