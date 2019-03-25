@@ -41,7 +41,10 @@ app.post('/signin', (req, res)=>{
                 let userbase = (user.type == 'buyer') ? 'buyer' :
                                (user.type == 'seller') ? 'seller' :
                                (user.type == 'admin')  ? 'admin' : '/signin';
+                
+                //if loggin successful redirect to user type landing page
                 //res.redirect(`${base_url}${userbase}`);
+                res.send('loggin successfull');
             }
         });
 });
@@ -55,8 +58,9 @@ app.post('/signup', (req, res)=>{
     newUser.digital_address = req.body.digital_address;
     newUser.voter_id = req.body.voter_id;
     newUser.type = req.body.type;
+
     
-    //saving to dbBeau teaches JavaScript
+    //saving to db
     newUser.save((error, document) =>{
         if(error){
             console.log('Failed to save user', error);

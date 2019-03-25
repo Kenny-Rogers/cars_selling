@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const CarSchema = new Schema({
     seller_id : String,
+    date_uploaded : {type :Date, default:Date.now},
     hottest : {
-        date_applied : Date.now,
         date_approved : {type:Date, default:null},
         status : {type:Boolean, default:false}
     },
@@ -13,12 +13,14 @@ const CarSchema = new Schema({
         date_purchased : Date
    },
    details : {
+        price : Number,
         manufacturer : String,
         model : String,
         cubic_capacity : String,
         registration_status : { type:Boolean, default:false},
         mileage : Number,
-        additional_info : String
+        additional_info : String,
+        pictures : [String]
    }
 });
 
