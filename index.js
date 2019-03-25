@@ -38,8 +38,8 @@ app.post('/signin', (req, res)=>{
                 console.log(`Succesfully found user ${user}`);
                 req.session.user_id = user._id;
                 req.session.user_type = user.type;
-                let userbase = (user.type == 'buyer') ? 'buyer' :
-                               (user.type == 'seller') ? 'seller' :
+                let userbase = (user.type == 'buyer') ? 'orders' :
+                               (user.type == 'seller') ? 'cars' :
                                (user.type == 'admin')  ? 'admin' : '/signin';
                 
                 //if loggin successful redirect to user type landing page
@@ -66,6 +66,7 @@ app.post('/signup', (req, res)=>{
             console.log('Failed to save user', error);
         } else {
             console.log('Save user successfully', document);
+            //TODO:: successful signup, redirect to signin page
            // res.redirect(`${base_url}signin`);
         }
     });

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
     car_id  : String,
@@ -8,4 +8,4 @@ const OrderSchema = new Schema({
     status : {type:String, default:'ordered'}
 });
 
-module.exports = db.mongoose.model('Order',OrderSchema);
+module.exports = mongoose.model('Order',OrderSchema);
