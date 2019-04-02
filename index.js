@@ -10,6 +10,7 @@ const path = require('path');
 const seller_router = require('./routes/seller');
 const buyer_router = require('./routes/buyer');
 const admin_router = require('./routes/admin');
+const db_conn = require('./core/cred');
 
 //including user model
 const userModel = require('./models/User'); 
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(expressSession({secret:'qpldhn273_s!', saveUninitialized:false, resave:false}));
-mongoose.connect('mongodb+srv://car_selling_webapp:IfnPjZQiM367ABPc@cluster0-avv4c.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
+mongoose.connect(db_conn.db, { useNewUrlParser: true });
 const db = mongoose.connection;
 app.set('view engine', 'ejs');
 
