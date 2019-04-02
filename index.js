@@ -97,6 +97,10 @@ app.get('/signout', (req, res)=>{
     });
 });
 
+app.get('/hotcars', (req,res)=>{
+    res.render('hotcars', {});
+});
+
 //setting up routers to handle respective route requests
 app.use('/seller', seller_router);
 app.use('/buyer', buyer_router);
