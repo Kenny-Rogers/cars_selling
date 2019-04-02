@@ -101,6 +101,22 @@ app.get('/hotcars', (req,res)=>{
     res.render('hotcars', {});
 });
 
+app.get('/othercars', (req, res) => {
+    res.render('othercars', {});
+});
+
+app.get('/sell', (req, res) => {
+    res.render('sell', {});
+});
+
+app.get('/buy', (req, res) => {
+    res.render('buy', {});
+});
+
+app.get('/about', (req, res) => {
+    res.render('about', {});
+});
+
 //setting up routers to handle respective route requests
 app.use('/seller', seller_router);
 app.use('/buyer', buyer_router);
