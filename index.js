@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressValidator= require('express-validator');
 const expressSession = require('express-session'); 
+const path = require('path');
 
 //including the routers for various pages
 const seller_router = require('./routes/seller');
@@ -15,18 +16,25 @@ const userModel = require('./models/User');
 
 //express app setup
 const app = express();
+app.use('/public', express.static(path.join(__dirname, 'asset')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
 app.use(expressSession({secret:'qpldhn273_s!', saveUninitialized:false, resave:false}));
 mongoose.connect('mongodb+srv://car_selling_webapp:IfnPjZQiM367ABPc@cluster0-avv4c.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
 const db = mongoose.connection;
+app.set('view engine', 'ejs');
 
 //variable definitions 
 const port = 1500;
 const base_url = `http://localhost/${port}/`;
 
 //universal routes
+app.get('/signin', (req,res)=>{
+    res.sendFile(path.join(__dirname, 'asset', 'login.html'));
+});
+
+
 app.post('/signin', (req, res)=>{
     userModel.findOne(
         {email:req.body.email, password:req.body.password},
@@ -47,6 +55,11 @@ app.post('/signin', (req, res)=>{
                 res.send('loggin successfull');
             }
         });
+});
+
+
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'asset', 'signup.html'));
 });
 
 app.post('/signup', (req, res)=>{
@@ -76,6 +89,7 @@ app.get('/signout', (req, res)=>{
     req.session.destroy(()=>{
         console.log('User logged out successfully');
         //TODO:: render sign out successfully page
+        res.redirect(`${base_url}signin`);
     });
 });
 
