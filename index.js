@@ -17,6 +17,7 @@ const userModel = require('./models/User');
 //express app setup
 const app = express();
 app.use('/public', express.static(path.join(__dirname, 'asset')));
+app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
@@ -52,11 +53,14 @@ app.post('/signin', (req, res)=>{
                 
                 //if loggin successful redirect to user type landing page
                 //res.redirect(`${base_url}${userbase}`);
-                res.send('loggin successfull');
+                res.send('login successfull');
             }
         });
 });
 
+app.get('/', (req,res)=>{
+    res.render('index', {});
+});
 
 app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'asset', 'signup.html'));
