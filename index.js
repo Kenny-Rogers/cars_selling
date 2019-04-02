@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 
 //variable definitions 
 const port = 1500;
-const base_url = `http://localhost/${port}/`;
+const base_url = `https://autobought.herokuapp.com`;//`http://localhost/${port}/`;
 
 //universal routes
 app.get('/signin', (req,res)=>{
