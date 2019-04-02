@@ -28,8 +28,8 @@ const db = mongoose.connection;
 app.set('view engine', 'ejs');
 
 //variable definitions 
-const port = 1500;
-const base_url = `https://autobought.herokuapp.com`;//`http://localhost/${port}/`;
+const port = process.env.PORT || 1500;
+const base_url = `http://localhost/${port}/`;
 
 //universal routes
 app.get('/signin', (req,res)=>{
