@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressValidator= require('express-validator');
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
 const expressSession = require('express-session'); 
 const path = require('path');
 const mongoStore = require('connect-mongo')(expressSession);
@@ -16,12 +18,17 @@ const db_conn = require('./core/cred');
 //including user model
 const userModel = require('./models/User'); 
 
+//variable definitions 
+const port = process.env.PORT || 1500;
+const base_url = `http://localhost:${port}/`;
+
 //db connection
 mongoose.connect(db_conn.db, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 //express app setup
 const app = express();
+app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'asset')));
 app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
@@ -38,12 +45,9 @@ app.use((req, res, next)=>{
     res.locals.session = req.session;
     next();
 });
-
+app.use(flash());
 app.set('view engine', 'ejs');
 
-//variable definitions 
-const port = process.env.PORT || 1500;
-const base_url = `http://localhost/${port}/`;
 
 //universal routes
 app.get('/signin', (req,res)=>{
@@ -57,18 +61,22 @@ app.post('/signin', (req, res)=>{
         (error, user)=>{
             if (error || user == null) {
                 console.error(error);
-                res.send('Invalid email or password');
+                //res.send('Invalid email or password');
+                req.flash('info', 'invalid username or password');
+                res.redirect('/signin');
             } else {
                 console.log(`Succesfully found user ${user}`);
                 req.session.user_id = user._id;
                 req.session.user_type = user.type;
+                req.session.full_name = user.full_name.toUpperCase();
                 let userbase = (user.type == 'buyer') ? 'orders' :
                                (user.type == 'seller') ? 'cars' :
                                (user.type == 'admin')  ? 'admin' : '/signin';
                 
                 //if loggin successful redirect to user type landing page
                 //res.redirect(`${base_url}${userbase}`);
-                res.send('login successfull');
+                res.redirect(`${base_url}`);
+                // res.send('login successfull');
             }
         });
 });
@@ -84,12 +92,15 @@ app.get('/signup', (req, res) => {
 app.post('/signup', (req, res)=>{
     //creating new user instance
     let newUser = new userModel();
-    newUser.full_name = req.body.full_name;
+    newUser.first_name = req.body.first_name;
+    newUser.last_name = req.body.last_name;
+    newUser.username = req.body.username;
     newUser.email = req.body.email;
     newUser.password = req.body.password;
     newUser.digital_address = req.body.digital_address;
     newUser.voter_id = req.body.voter_id;
     newUser.type = req.body.type;
+    // newUser.type = req.body.type;
 
     
     //saving to db
@@ -108,7 +119,7 @@ app.get('/signout', (req, res)=>{
     req.session.destroy(()=>{
         console.log('User logged out successfully');
         //TODO:: render sign out successfully page
-        res.redirect(`${base_url}signin`);
+        res.redirect(`${base_url}`);
     });
 });
 

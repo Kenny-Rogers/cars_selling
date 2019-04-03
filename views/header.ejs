@@ -33,7 +33,21 @@
                 <img src="/public/logo.png" class="header-brand-img" alt="logo">
               </a>
               <div class="d-flex order-lg-2 ml-auto">
-                <a href="/signin">
+              <% if (session.user_id) { %>
+                 <div class="dropdown">
+                  <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                    <span class="ml-2 d-none d-lg-block">
+                      <span class="text-default"><i class="fe fe-user"></i>:- <%= session.full_name %></span>
+                    </span>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                    <a class="dropdown-item" href="/signout">
+                      <i class="dropdown-icon fe fe-log-out"></i> Logout
+                    </a>
+                  </div>
+                </div> 
+                <%  } if (!session.user_id) { %>
+            <a href="/signin">
                     <span class="ml-2 d-none d-lg-block">
                         <span class="text-default">Login</span>
                     </span>
@@ -43,18 +57,7 @@
                         <span class="text-default">Signup</span>
                     </span>
                 </a>
-                <!-- <div class="dropdown">
-                  <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-                    <span class="ml-2 d-none d-lg-block">
-                      <span class="text-default"><i class="fe fe-user"></i>:- Jane Pearson</span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a class="dropdown-item" href="#">
-                      <i class="dropdown-icon fe fe-log-out"></i> Logout
-                    </a>
-                  </div>
-                </div> -->
+                <% } %>
               </div>
               <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
                 <span class="header-toggler-icon"></span>
@@ -85,12 +88,15 @@
                             <a href="/othercars" class="dropdown-item ">Other Cars</a>
                         </div>
                     </li>
+                    <% if (session.user_type == 'seller') { %>
                     <li class="nav-item">
                         <a href="/sell" class="nav-link"><i class="fe fe-chevrons-left"></i> Sell Car</a>
                     </li>
+                    <%  } if (session.user_type == 'buyer') { %>
                     <li class="nav-item">
                         <a href="/buy" class="nav-link"><i class="fe fe-chevrons-right"></i> Buy Car</a>
                     </li>
+                    <% } %>
                     <li class="nav-item">
                         <a href="/about" class="nav-link"><i class="fe fe-file-text"></i> About us</a>
                     </li>
