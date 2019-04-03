@@ -118,6 +118,18 @@ app.get('/about', (req, res) => {
     res.render('about', {});
 });
 
+app.get('/privacy', (req, res) => {
+    res.render('privacy', {});
+});
+
+app.get('/termsandconditions', (req, res) => {
+    res.render('termsandconditions', {});
+});
+
+app.get('/return_policy', (req, res) => {
+    res.render('return_policy', {});
+});
+
 //setting up routers to handle respective route requests
 app.use('/seller', seller_router);
 app.use('/buyer', buyer_router);
