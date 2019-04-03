@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const expressValidator= require('express-validator');
 const expressSession = require('express-session'); 
 const path = require('path');
+const mongoStore = require('connect-mongo')(expressSession);
 
 //including the routers for various pages
 const seller_router = require('./routes/seller');
@@ -15,6 +16,10 @@ const db_conn = require('./core/cred');
 //including user model
 const userModel = require('./models/User'); 
 
+//db connection
+mongoose.connect(db_conn.db, { useNewUrlParser: true });
+const db = mongoose.connection;
+
 //express app setup
 const app = express();
 app.use('/public', express.static(path.join(__dirname, 'asset')));
@@ -22,9 +27,18 @@ app.use('/img', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressValidator());
-app.use(expressSession({secret:'qpldhn273_s!', saveUninitialized:false, resave:false}));
-mongoose.connect(db_conn.db, { useNewUrlParser: true });
-const db = mongoose.connection;
+app.use(expressSession({ 
+    secret:'qpldhn273_s!', 
+    saveUninitialized:false, 
+    resave:false,
+    store : new mongoStore({ mongooseConnection : db }),
+    cookie : { maxAge : 20 * 60 * 1000 }
+}));
+app.use((req, res, next)=>{
+    res.locals.session = req.session;
+    next();
+});
+
 app.set('view engine', 'ejs');
 
 //variable definitions 
