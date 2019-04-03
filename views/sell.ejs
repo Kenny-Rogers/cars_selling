@@ -9,57 +9,57 @@
         </h1>
     </div>
 
-    <div class="alert alert-info">You must make 5% deposite in order to view vehicle documents. <a href="" class="alert-link">Make payment</a></div>
-
-    <form class="card">
+    <!--div class="alert alert-info">You must make 5% deposite in order to view vehicle documents. <a href="" class="alert-link">Make payment</a></div>
+    -->
+    <form class="card" method="POST" enctype="multipart/form-data" action="/seller/car/add">
             <div class="card-body">
                 <h3 class="card-title">Enter car details</h3>
                 <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                             <label class="form-label">Manufacturer</label>
-                            <select name="" id="select-manufacturer" class="form-control custom-select">
-                                <option value="1">Tesla</option>
-                                <option value="4">Benz</option>
-                                <option value="3">Toyota</option>
-                                <option value="3">Ford</option>
+                            <select name="manufacturer" id="select-manufacturer" class="form-control custom-select">
+                                <option value="tesla">Tesla</option>
+                                <option value="benz">Benz</option>
+                                <option value="toyota">Toyota</option>
+                                <option value="ford">Ford</option>
                             </select>
                         </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                     <label class="form-label">Model</label>
-                    <input type="text" class="form-control" placeholder="Enter car model" required pattern="[A-Z0-9]{17}" title="Type in All CAPS and maximum of 17 characters">
+                    <input type="text" name="model" class="form-control" placeholder="Enter car model" required pattern="[A-Z0-9]{17}" title="Type in All CAPS and maximum of 17 characters">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Cubic Capacity (Kg)</label>
-                        <input type="text" class="form-control" placeholder="Enter cubic capacity" pattern="[0-9]{6}" title="Should contain numbers and maximum of 6 characters">
+                        <input type="text" name="cubic_capacity" class="form-control" placeholder="Enter cubic capacity" pattern="[0-9]{6}" title="Should contain numbers and maximum of 6 characters">
                     </div>
                     </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label class="form-label">Mileage (Mph)</label>
-                    <input type="text" class="form-control" placeholder="Enter car mileage" pattern="[0-9]{6}" title="Should contain numbers and maximum of 6 characters" >
+                    <input type="text" name="mileage" class="form-control" placeholder="Enter car mileage" pattern="[0-9]{6}" title="Should contain numbers and maximum of 6 characters" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">Cylinders</label>
-                        <input type="text" placeholder="v16" class="form-control" pattern="[a-z0-9]{2-3}" title="Should contain atleast a character and maximum of 2 numbers" >
+                        <input type="text" name="cylinders" placeholder="v16" class="form-control" pattern="[a-z0-9]{2-3}" title="Should contain atleast a character and maximum of 2 numbers" >
                     </div>
                     </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                            <div class="form-label">Registeratin status</div>
+                            <div class="form-label">Registeration status</div>
                             <div class="custom-controls-stacked">
                                 <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" value="option1" checked>
+                                <input type="radio" name="registration_status" class="custom-control-input" value="true" checked>
                                 <span class="custom-control-label">Registered</span>
                                 </label><br>
                                 <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input"  value="option2">
+                                <input type="radio" name="registration_status" class="custom-control-input"  value="false">
                                 <span class="custom-control-label">Unregistered</span>
                                 </label>
                             </div>
@@ -69,7 +69,7 @@
                     <div class="form-group">
                         <div class="form-label">Add image</div>
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="" multiple>
+                            <input type="file" class="custom-file-input" name="pictures">
                             <label class="custom-file-label">Choose file</label>
                         </div>
                     </div>
@@ -79,9 +79,9 @@
                         <label class="form-label">Price</label>
                         <div class="input-group">
                         <span class="input-group-prepend">
-                            <span class="input-group-text">Ghc</span>
+                            <span class="input-group-text">GhC</span>
                         </span>
-                        <input type="number" class="form-control text-right" aria-label="Amount (to the nearest dollar)">
+                        <input type="number" name="price" class="form-control text-right" aria-label="Amount (to the nearest dollar)">
                         <span class="input-group-append">
                             <span class="input-group-text">.00</span>
                         </span>
@@ -91,9 +91,7 @@
                 <div class="col-12">
                     <div class="form-group mb-0">
                     <label class="form-label">Additional information</label>
-                    <textarea rows="3" class="form-control" placeholder="Here can be your description">
-                        This is something nice about the car.
-                    </textarea>
+                    <textarea rows="3" name="additional_info" class="form-control" placeholder="Here can be your description"></textarea>
                     </div>
                 </div>
                 

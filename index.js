@@ -144,7 +144,19 @@ app.get('/hotcars', (req,res)=>{
 });
 
 app.get('/othercars', (req, res) => {
-    res.render('othercars', {});
+    carModel.find(
+        { "hottest.status": true })
+        .exec((error, cars) => {
+            if (error || cars.lenght == 0) {
+                console.log('No cars found');
+            } else {
+                console.log('Hot Cars found');
+                //console.log(cars);
+            }
+            res.render('othercars', { cars: cars });
+        }
+        );
+    //res.render('othercars', {});
 });
 
 app.get('/sell', (req, res) => {

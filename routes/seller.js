@@ -21,13 +21,17 @@ route.get('/cars', (req, res)=>{
     });
 });
 
+// route.get('/sell', (req, res) => {
+//     res.render('sell', {});
+// });
+
 //add new car 
 route.post('/car/add',(req, res)=>{
     //async function to save upload files
     func.saveFile(req).then((uploadFiles)=>{
         let newCar = new CarModel();
         newCar.seller_id = req.session.user_id;
-        newCar.hottest.status = req.body.hottest;
+        newCar.hottest.status = true;//req.body.hottest;
         newCar.details.manufacturer = req.body.manufacturer;
         newCar.details.price = req.body.price;
         newCar.details.model = req.body.model;
@@ -35,21 +39,24 @@ route.post('/car/add',(req, res)=>{
         newCar.details.registration_status = req.body.registration_status;
         newCar.details.mileage = req.body.mileage;
         newCar.details.additional_info = req.body.additional_info;  
-        newCar.details.pictures = uploadFiles.length;
+        newCar.details.pictures = uploadFiles;
+        newCar.details.cylinders = req.body.cylinders;
         newCar.save((error, car) => {
             if (error) {
                 console.log('Failed to add car ', error);
                 //TODO:: Render failed to save car page
-                res.send('Failed to add car');
+                //res.send('Failed to add car');
+                res.redirect('/sell');
             } else {
                 console.log('Car details saved successfully', car);
                 //TODO:: Render saved car details successfully page
-                res.send('Car details saved successfully');
+                res.redirect('/');
             }
         });
     }).catch((error)=>{
         console.log(error);
         //TODO:: Render failed to save car page
+        res.redirect('/sell');
     });
     
 });

@@ -20,7 +20,8 @@ const CarSchema = new Schema({
         registration_status : { type:Boolean, default:false},
         mileage : Number,
         additional_info : String,
-        pictures : [String]
+        pictures : [String],
+        cylinders : String
    }
 });
 
