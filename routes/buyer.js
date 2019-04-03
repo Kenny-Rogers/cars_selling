@@ -16,10 +16,6 @@ route.get('/orders', (req, res) => {
     });
  });
 
- route.get('/order/make/:car_id', (req,res)=>{
-     
- });
-
 route.post('/order/make', (req, res) => {
     let newOrder = new OrderModel();
     newOrder.car_id = req.body.car_id;

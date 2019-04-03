@@ -21,10 +21,6 @@ route.get('/cars', (req, res)=>{
     });
 });
 
-// route.get('/sell', (req, res) => {
-//     res.render('sell', {});
-// });
-
 //add new car 
 route.post('/car/add',(req, res)=>{
     //async function to save upload files

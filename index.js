@@ -163,7 +163,12 @@ app.get('/sell', (req, res) => {
     res.render('sell', {});
 });
 
-app.get('/buy', (req, res) => {
+// app.get('/buy/:car_id', (req, res) => {
+//     const cars = await carModel.findById(car_id);
+//     res.render('buy', { });
+// });
+
+app.get('/buy', (req,res)=>{
     res.render('buy', {});
 });
 
