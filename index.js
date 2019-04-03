@@ -17,6 +17,7 @@ const db_conn = require('./core/cred');
 
 //including user model
 const userModel = require('./models/User'); 
+const carModel = require('./models/Car');
 
 //variable definitions 
 const production = 'https://autobought.herokuapp.com/';
@@ -128,7 +129,18 @@ app.get('/signout', (req, res)=>{
 });
 
 app.get('/hotcars', (req,res)=>{
-    res.render('hotcars', {});
+    carModel.find(
+        { "hottest.status": true})
+        .exec((error, cars)=>{
+            if (error || cars.lenght == 0) { 
+                console.log('No cars found');
+            } else {
+                console.log('Hot Cars found');
+                console.log(cars);
+            }
+            res.render('hotcars', {cars:cars});
+        }
+    );
 });
 
 app.get('/othercars', (req, res) => {

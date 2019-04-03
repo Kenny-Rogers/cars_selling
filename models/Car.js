@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CarSchema = new Schema({
-    seller_id : String,
+    seller_id: { type: Schema.Types.ObjectId, ref: 'user' },
     date_uploaded : {type :Date, default:Date.now},
     hottest : {
         date_approved : {type:Date, default:null},
         status : {type:Boolean, default:false}
     },
    sale : {
-        buyer_id : String,
+        buyer_id: { type: Schema.Types.ObjectId, ref: 'user' },
         date_purchased : Date
    },
    details : {
