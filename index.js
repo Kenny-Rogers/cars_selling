@@ -68,7 +68,7 @@ app.post('/signin', (req, res)=>{
                 console.log(`Succesfully found user ${user}`);
                 req.session.user_id = user._id;
                 req.session.user_type = user.type;
-                req.session.full_name = user.full_name.toUpperCase();
+                req.session.username = user.username.toUpperCase();
                 let userbase = (user.type == 'buyer') ? 'orders' :
                                (user.type == 'seller') ? 'cars' :
                                (user.type == 'admin')  ? 'admin' : '/signin';
@@ -100,17 +100,19 @@ app.post('/signup', (req, res)=>{
     newUser.digital_address = req.body.digital_address;
     newUser.voter_id = req.body.voter_id;
     newUser.type = req.body.type;
-    // newUser.type = req.body.type;
+    newUser.phonenumber = req.body.phonenumber;
 
     
     //saving to db
     newUser.save((error, document) =>{
         if(error){
             console.log('Failed to save user', error);
+            res.redirect('/signup');
         } else {
             console.log('Save user successfully', document);
             //TODO:: successful signup, redirect to signin page
            // res.redirect(`${base_url}signin`);
+            res.redirect('/signin');
         }
     });
 });
