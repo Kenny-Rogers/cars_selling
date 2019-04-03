@@ -19,8 +19,10 @@ const db_conn = require('./core/cred');
 const userModel = require('./models/User'); 
 
 //variable definitions 
+const production = 'https://autobought.herokuapp.com/';
 const port = process.env.PORT || 1500;
-const base_url = `http://localhost:${port}/`;
+const development = `http://localhost:${port}/`;
+const base_url = (process.env.NODE_ENV ? production : development);
 
 //db connection
 mongoose.connect(db_conn.db, { useNewUrlParser: true });
