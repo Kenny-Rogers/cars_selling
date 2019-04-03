@@ -65,7 +65,7 @@ app.post('/signin', (req, res)=>{
                 console.error(error);
                 //res.send('Invalid email or password');
                 req.flash('info', 'invalid username or password');
-                res.redirect(`${base_url}/signin`);
+                res.redirect(`${base_url}signin`);
             } else {
                 console.log(`Succesfully found user ${user}`);
                 req.session.user_id = user._id;
@@ -109,12 +109,12 @@ app.post('/signup', (req, res)=>{
     newUser.save((error, document) =>{
         if(error){
             console.log('Failed to save user', error);
-            res.redirect(`${base_url}/signup`);
+            res.redirect(`${base_url}signup`);
         } else {
             console.log('Save user successfully', document);
             //TODO:: successful signup, redirect to signin page
            // res.redirect(`${base_url}signin`);
-            res.redirect(`${base_url}/signin`);
+            res.redirect(`${base_url}signin`);
         }
     });
 });
